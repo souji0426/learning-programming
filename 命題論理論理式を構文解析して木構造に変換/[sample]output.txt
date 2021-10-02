@@ -1,0 +1,340 @@
+---------( ( A_1 \land A_2 ) \lor ( A_3 \land A_4 ) )のtree図---------
+
+\begin{center}
+	\begin{tikzpicture}[
+		%grow=right,
+		level distance=50pt,
+		sibling distance=20pt,
+		every tree node/.style={anchor=north},
+		every node/.append style={align=center}
+	]
+	\Tree [
+	.{$( ( A_1 \land A_2 ) \lor ( A_3 \land A_4 ) )$}
+		[
+		.{$( A_1 \land A_2 )$}
+			{$A_1$}
+			{$A_2$}
+		]
+		[
+		.{$( A_3 \land A_4 )$}
+			{$A_3$}
+			{$A_4$}
+		]
+	]
+	\end{tikzpicture}
+\end{center}
+
+---------( ( A_2 \land A_1 ) \to A_6 )のtree図---------
+
+\begin{center}
+	\begin{tikzpicture}[
+		%grow=right,
+		level distance=50pt,
+		sibling distance=20pt,
+		every tree node/.style={anchor=north},
+		every node/.append style={align=center}
+	]
+	\Tree [
+	.{$( ( A_2 \land A_1 ) \to A_6 )$}
+		[
+		.{$( A_2 \land A_1 )$}
+			{$A_2$}
+			{$A_1$}
+		]
+		{$A_6$}
+	]
+	\end{tikzpicture}
+\end{center}
+
+---------( \lnot A_1 )のtree図---------
+
+\begin{center}
+	\begin{tikzpicture}[
+		%grow=right,
+		level distance=50pt,
+		sibling distance=20pt,
+		every tree node/.style={anchor=north},
+		every node/.append style={align=center}
+	]
+	\Tree [
+	.{$( \lnot A_1 )$}
+		{$A_1$}
+	]
+	\end{tikzpicture}
+\end{center}
+
+---------( \lnot ( \lnot ( \lnot A_1 ) ) )のtree図---------
+
+\begin{center}
+	\begin{tikzpicture}[
+		%grow=right,
+		level distance=50pt,
+		sibling distance=20pt,
+		every tree node/.style={anchor=north},
+		every node/.append style={align=center}
+	]
+	\Tree [
+	.{$( \lnot ( \lnot ( \lnot A_1 ) ) )$}
+		[
+		.{$( \lnot ( \lnot A_1 ) )$}
+			[
+			.{$( \lnot A_1 )$}
+				{$A_1$}
+			]
+		]
+	]
+	\end{tikzpicture}
+\end{center}
+
+---------( ( \lnot ( \lnot ( \lnot A_1 ) ) ) \to A_2 )のtree図---------
+
+\begin{center}
+	\begin{tikzpicture}[
+		%grow=right,
+		level distance=50pt,
+		sibling distance=20pt,
+		every tree node/.style={anchor=north},
+		every node/.append style={align=center}
+	]
+	\Tree [
+	.{$( ( \lnot ( \lnot ( \lnot A_1 ) ) ) \to A_2 )$}
+		[
+		.{$( \lnot ( \lnot ( \lnot A_1 ) ) )$}
+			[
+			.{$( \lnot ( \lnot A_1 ) )$}
+				[
+				.{$( \lnot A_1 )$}
+					{$A_1$}
+				]
+			]
+		]
+		{$A_2$}
+	]
+	\end{tikzpicture}
+\end{center}
+
+---------A_3のtree図---------
+
+\begin{center}
+	\begin{tikzpicture}[
+		%grow=right,
+		level distance=50pt,
+		sibling distance=20pt,
+		every tree node/.style={anchor=north},
+		every node/.append style={align=center}
+	]
+	{$A_3$}
+	\end{tikzpicture}
+\end{center}
+
+---------( ( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) ) \to ( \lnot ( \lnot ( \lnot A_1 ) ) ) )のtree図---------
+
+\begin{center}
+	\begin{tikzpicture}[
+		%grow=right,
+		level distance=50pt,
+		sibling distance=20pt,
+		every tree node/.style={anchor=north},
+		every node/.append style={align=center}
+	]
+	\Tree [
+	.{$( ( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) ) \to ( \lnot ( \lnot ( \lnot A_1 ) ) ) )$}
+		[
+		.{$( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) )$}
+			[
+			.{$( A_2 \to ( A_1 \to A_6 ) )$}
+				{$A_2$}
+				[
+				.{$( A_1 \to A_6 )$}
+					{$A_1$}
+					{$A_6$}
+				]
+			]
+			[
+			.{$( ( A_2 \land A_1 ) \to A_6 )$}
+				[
+				.{$( A_2 \land A_1 )$}
+					{$A_2$}
+					{$A_1$}
+				]
+				{$A_6$}
+			]
+		]
+		[
+		.{$( \lnot ( \lnot ( \lnot A_1 ) ) )$}
+			[
+			.{$( \lnot ( \lnot A_1 ) )$}
+				[
+				.{$( \lnot A_1 )$}
+					{$A_1$}
+				]
+			]
+		]
+	]
+	\end{tikzpicture}
+\end{center}
+
+---------( ( \lnot ( \lnot ( \lnot A_1 ) ) ) \lor ( \lnot ( \lnot ( \lnot A_2 ) ) ) )のtree図---------
+
+\begin{center}
+	\begin{tikzpicture}[
+		%grow=right,
+		level distance=50pt,
+		sibling distance=20pt,
+		every tree node/.style={anchor=north},
+		every node/.append style={align=center}
+	]
+	\Tree [
+	.{$( ( \lnot ( \lnot ( \lnot A_1 ) ) ) \lor ( \lnot ( \lnot ( \lnot A_2 ) ) ) )$}
+		[
+		.{$( \lnot ( \lnot ( \lnot A_1 ) ) )$}
+			[
+			.{$( \lnot ( \lnot A_1 ) )$}
+				[
+				.{$( \lnot A_1 )$}
+					{$A_1$}
+				]
+			]
+		]
+		[
+		.{$( \lnot ( \lnot ( \lnot A_2 ) ) )$}
+			[
+			.{$( \lnot ( \lnot A_2 ) )$}
+				[
+				.{$( \lnot A_2 )$}
+					{$A_2$}
+				]
+			]
+		]
+	]
+	\end{tikzpicture}
+\end{center}
+
+---------( A_1 \land A_2 )のtree図---------
+
+\begin{center}
+	\begin{tikzpicture}[
+		%grow=right,
+		level distance=50pt,
+		sibling distance=20pt,
+		every tree node/.style={anchor=north},
+		every node/.append style={align=center}
+	]
+	\Tree [
+	.{$( A_1 \land A_2 )$}
+		{$A_1$}
+		{$A_2$}
+	]
+	\end{tikzpicture}
+\end{center}
+
+---------( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) )のtree図---------
+
+\begin{center}
+	\begin{tikzpicture}[
+		%grow=right,
+		level distance=50pt,
+		sibling distance=20pt,
+		every tree node/.style={anchor=north},
+		every node/.append style={align=center}
+	]
+	\Tree [
+	.{$( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) )$}
+		[
+		.{$( A_2 \to ( A_1 \to A_6 ) )$}
+			{$A_2$}
+			[
+			.{$( A_1 \to A_6 )$}
+				{$A_1$}
+				{$A_6$}
+			]
+		]
+		[
+		.{$( ( A_2 \land A_1 ) \to A_6 )$}
+			[
+			.{$( A_2 \land A_1 )$}
+				{$A_2$}
+				{$A_1$}
+			]
+			{$A_6$}
+		]
+	]
+	\end{tikzpicture}
+\end{center}
+
+---------( ( ( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) ) \to ( \lnot ( \lnot ( \lnot A_1 ) ) ) ) \lor ( ( \lnot ( \lnot ( \lnot A_1 ) ) ) \lor ( ( A_1 \land A_2 ) \lor ( A_3 \land A_4 ) ) ) ) ) )のtree図---------
+
+\begin{center}
+	\begin{tikzpicture}[
+		%grow=right,
+		level distance=50pt,
+		sibling distance=20pt,
+		every tree node/.style={anchor=north},
+		every node/.append style={align=center}
+	]
+	\Tree [
+	.{$( ( ( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) ) \to ( \lnot ( \lnot ( \lnot A_1 ) ) ) ) \lor ( ( \lnot ( \lnot ( \lnot A_1 ) ) ) \lor ( ( A_1 \land A_2 ) \lor ( A_3 \land A_4 ) ) ) ) ) )$}
+		[
+		.{$( ( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) ) \to ( \lnot ( \lnot ( \lnot A_1 ) ) ) )$}
+			[
+			.{$( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) )$}
+				[
+				.{$( A_2 \to ( A_1 \to A_6 ) )$}
+					{$A_2$}
+					[
+					.{$( A_1 \to A_6 )$}
+						{$A_1$}
+						{$A_6$}
+					]
+				]
+				[
+				.{$( ( A_2 \land A_1 ) \to A_6 )$}
+					[
+					.{$( A_2 \land A_1 )$}
+						{$A_2$}
+						{$A_1$}
+					]
+					{$A_6$}
+				]
+			]
+			[
+			.{$( \lnot ( \lnot ( \lnot A_1 ) ) )$}
+				[
+				.{$( \lnot ( \lnot A_1 ) )$}
+					[
+					.{$( \lnot A_1 )$}
+						{$A_1$}
+					]
+				]
+			]
+		]
+		[
+		.{$( ( \lnot ( \lnot ( \lnot A_1 ) ) ) \lor ( ( A_1 \land A_2 ) \lor ( A_3 \land A_4 ) ) ) ) )$}
+			[
+			.{$( \lnot ( \lnot ( \lnot A_1 ) ) )$}
+				[
+				.{$( \lnot ( \lnot A_1 ) )$}
+					[
+					.{$( \lnot A_1 )$}
+						{$A_1$}
+					]
+				]
+			]
+			[
+			.{$( ( A_1 \land A_2 ) \lor ( A_3 \land A_4 ) ) ) )$}
+				[
+				.{$( A_1 \land A_2 )$}
+					{$A_1$}
+					{$A_2$}
+				]
+				[
+				.{$( A_3 \land A_4 ) ) )$}
+					{$A_3$}
+					{$A_4))$}
+				]
+			]
+		]
+	]
+	\end{tikzpicture}
+\end{center}
+

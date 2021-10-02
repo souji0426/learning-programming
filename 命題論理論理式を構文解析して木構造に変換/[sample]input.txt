@@ -1,0 +1,11 @@
+( ( A_1 \land A_2 ) \lor ( A_3 \land A_4 ) )
+(\ ( A_2 \land A_1 ) \to A_6\ )
+(\lnot A_1)
+(\lnot (\lnot (\lnot A_1)))
+((\lnot (\lnot (\lnot A_1))) \to A_2)
+A_3
+(( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) ) \to (\lnot (\lnot (\lnot A_1))))
+((\lnot (\lnot (\lnot A_1))) \lor (\lnot (\lnot (\lnot A_2))))
+( A_1 \land A_2 )
+( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) )
+( (( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) ) \to (\lnot (\lnot (\lnot A_1)))) \lor ((\lnot (\lnot (\lnot A_1))) \lor ( ( A_1 \land A_2 ) \lor ( A_3 \land A_4 ) )))) )
