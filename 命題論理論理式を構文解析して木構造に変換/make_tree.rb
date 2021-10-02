@@ -1,26 +1,41 @@
 require "fileutils"
 
 def main
+  #入力ファイルの読み込み
+  input_file_path = "./input.txt"
+  #入力ファイルの各行（に書かれているTeX形式の論理式）を配列に格納して返す
+  #そのさい見栄えのために論理式に含まれている空白スペースを削除する
+  expression_list = read_text( input_file_path )
+
+  #出力ファイルがすでにあれば削除しておく
   output_file_path = "./output.txt"
   if FileTest.exists?( output_file_path ) then
     FileUtils.rm( output_file_path )
   end
 
-  expression_list = read_text()
+
   for expression in expression_list do
+
+    #TeX形式の論理式を構文解析して木構造にして返す
+    #返り値のtreeは木構造とは名ばかりの1次元配列
+    #各キーは「a-b-…-c」という数字のハイフンつなぎ形式で、数字は0,1のどちらか
+    #このキーで二分木の高さと位置を表現している
+    #バリューはTeX形式の論理式
     tree = analyze_expression( expression )
+
+    #見やすさのために再度空白スペースをtreeの全ての論理式に挿入する
+    #具体的には論理結合子の前後と左括弧の直後・右括弧の直前に「\ 」を挿入する
     insert_space_in_all_expression( tree )
-    tree.each{ |key, value|
-      #puts "key：" + key + "　　　value：" + value
-    }
 
     output_tree( tree, output_file_path )
   end
 end
 
-def read_text
+#read_text関連関数--------------------------------------------------------------------------------
+
+def read_text( input_file_path )
   expression_list = []
-  File.readlines("input.txt").each do |line|
+  File.readlines( input_file_path ).each do |line|
     line = line.chomp
     line = line.gsub( "\\\s", "" )
     line = line.gsub( "\s", "" )
@@ -29,31 +44,9 @@ def read_text
   return expression_list
 end
 
-def make_skeleton_tree( tree, height )
-  for num in 1..height do
-    target_keys = []
-    tree.each{ |key, value|
-      if key.length == num * 2 - 1 then
-        target_keys.push( key )
-      end
-    }
-    for key in target_keys do
-      tree[ key + "-0" ] = ""
-      tree[ key + "-1" ] = ""
-    end
-  end
-end
+#---------------------------------------------------------------------------------------------------
 
-def is_finish( trees, num )
-  trees.each{ |key, value|
-    if key.length == num * 2 - 1 then
-      if trees[key] =~ /\A\(/ then
-        return false
-      end
-    end
-  }
-  return true
-end
+#analyze_expression関連関数---------------------------------------------------------------------
 
 def get_sub_expression( expression, num )
   target_expression = expression[1..expression.length-2]
@@ -96,13 +89,24 @@ def get_sub_expression( expression, num )
   end
 end
 
-def make_tree( target_expression, trees, height )
+def is_finish( tree, num )
+  tree.each{ |key, value|
+    if key.length == num * 2 - 1 then
+      if tree[key] =~ /\A\(/ then
+        return false
+      end
+    end
+  }
+  return true
+end
+
+def make_tree( target_expression, tree, height )
   for num in 1..height do
-    if is_finish( trees, num ) then
+    if is_finish( tree, num ) then
       break
     end
     result_hash = {}
-    trees.each{ |key, value|
+    tree.each{ |key, value|
       if key.length == num * 2 - 1 then
         if value =~ /\A\(\\lnot/ then
           result_hash[ key + "-0" ] = get_sub_expression( value, 1 )
@@ -114,14 +118,29 @@ def make_tree( target_expression, trees, height )
       end
     }
     result_hash.each{ |key, value|
-      trees[key] = value
+      tree[key] = value
     }
   end
-  trees.each{ |key, value|
+  tree.each{ |key, value|
     if value == "" then
-      trees.delete( key )
+      tree.delete( key )
     end
   }
+end
+
+def make_skeleton_tree( tree, height )
+  for num in 1..height do
+    target_keys = []
+    tree.each{ |key, value|
+      if key.length == num * 2 - 1 then
+        target_keys.push( key )
+      end
+    }
+    for key in target_keys do
+      tree[ key + "-0" ] = ""
+      tree[ key + "-1" ] = ""
+    end
+  end
 end
 
 def analyze_expression( expression )
@@ -131,6 +150,10 @@ def analyze_expression( expression )
   make_tree( expression, tree, max_height_of_tree )
   return tree
 end
+
+#---------------------------------------------------------------------------------------------------
+
+#insert_space_in_all_expression関連関数--------------------------------------------------------
 
 def insert_space_in_all_expression( tree )
   tree.each{ |key, expression|
@@ -147,64 +170,9 @@ def insert_space_in_all_expression( tree )
   }
 end
 
-def get_tree_height( tree )
-  max = 0
-  tree.each{ |key, value|
-    height = ( key.length + 1 ) / 2
-    if max < height then
-      max = height
-    end
-  }
-  return max
-end
+#---------------------------------------------------------------------------------------------------
 
-def get_same_height_keys( tree, num )
-  result_keys = []
-  tree.each{ |key, value|
-    if num == ( key.length + 1 ) / 2 then
-      result_keys.push( key )
-    end
-  }
-  return result_keys
-end
-
-def make_skeleton_for_output_tree( height )
-  tree = { "0" => "" }
-  for num in 1..height do
-    target_keys = []
-    tree.each{ |key, value|
-      if key.length == num * 2 - 1 then
-        target_keys.push( key )
-      end
-    }
-    for key in target_keys do
-      tree[ key + "-0" ] = ""
-      tree[ key + "-1" ] = ""
-      tree[ key + "l" ] = ""
-      tree[ key + "r" ] = ""
-    end
-  end
-  return tree
-end
-
-def copy_tree_to_skeleton( tree, skeleton_tree )
-  skeleton_tree.each{ |key, value|
-    if tree.has_key?( key ) then
-      skeleton_tree[ key ] = tree[ key ]
-      if !tree.has_key?( key + "-0" ) then
-        skeleton_tree.delete( key + "l" )
-        skeleton_tree.delete( key + "r" )
-      end
-    else
-      skeleton_tree.delete( key + "l" )
-      skeleton_tree.delete( key + "r" )
-      if key !~ /l|r\Z/ then
-        skeleton_tree.delete( key )
-      end
-    end
-  }
-  return skeleton_tree
-end
+#output_tree関連関数-----------------------------------------------------------------------------
 
 def get_num_of_child( tree, node_name )
   child_counter = 0
@@ -222,6 +190,16 @@ def get_start_position( list )
       return num
     end
   end
+end
+
+def get_same_height_keys( tree, num )
+  result_keys = []
+  tree.each{ |key, value|
+    if num == ( key.length + 1 ) / 2 then
+      result_keys.push( key )
+    end
+  }
+  return result_keys
 end
 
 def kill_all_dummy_child( list )
@@ -258,6 +236,55 @@ def put_tree_in_order_and_make_sentense( tree, for_output_tree )
   return list
 end
 
+def copy_tree_to_skeleton( tree, skeleton_tree )
+  skeleton_tree.each{ |key, value|
+    if tree.has_key?( key ) then
+      skeleton_tree[ key ] = tree[ key ]
+      if !tree.has_key?( key + "-0" ) then
+        skeleton_tree.delete( key + "l" )
+        skeleton_tree.delete( key + "r" )
+      end
+    else
+      skeleton_tree.delete( key + "l" )
+      skeleton_tree.delete( key + "r" )
+      if key !~ /l|r\Z/ then
+        skeleton_tree.delete( key )
+      end
+    end
+  }
+  return skeleton_tree
+end
+
+def make_skeleton_for_output_tree( height )
+  tree = { "0" => "" }
+  for num in 1..height do
+    target_keys = []
+    tree.each{ |key, value|
+      if key.length == num * 2 - 1 then
+        target_keys.push( key )
+      end
+    }
+    for key in target_keys do
+      tree[ key + "-0" ] = ""
+      tree[ key + "-1" ] = ""
+      tree[ key + "l" ] = ""
+      tree[ key + "r" ] = ""
+    end
+  end
+  return tree
+end
+
+def get_tree_height( tree )
+  max = 0
+  tree.each{ |key, value|
+    height = ( key.length + 1 ) / 2
+    if max < height then
+      max = height
+    end
+  }
+  return max
+end
+
 def make_sentence_for_output( tree )
   height = get_tree_height( tree )
   skeleton_tree = make_skeleton_for_output_tree( height )
@@ -268,7 +295,7 @@ end
 def output_tree( tree, output_file_path )
   sentence_list = make_sentence_for_output( tree )
   File.open( output_file_path, mode = "a" ){ |f|
-    f.write( "---------" + tree["0"] + "のtree図---------\n\n" )
+    f.write( "---------$" + tree["0"] + "$のtree図---------\n\n" )
     f.write( "\\begin{center}\n" )
     f.write( "\t\\begin{tikzpicture}[\n" )
     f.write( "\t\t\%grow=right,\n" )
@@ -286,5 +313,8 @@ def output_tree( tree, output_file_path )
     f.write( "\n" )
   }
 end
+
+#---------------------------------------------------------------------------------------------------
+
 
 main()
