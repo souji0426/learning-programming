@@ -1,4 +1,4 @@
----------( ( A_1 \land A_2 ) \lor ( A_3 \land A_4 ) )のtree図---------
+---------$( ( A_1 \land A_2 ) \lor ( A_3 \land A_4 ) )$のtree図---------
 
 \begin{center}
 	\begin{tikzpicture}[
@@ -24,7 +24,7 @@
 	\end{tikzpicture}
 \end{center}
 
----------( ( A_2 \land A_1 ) \to A_6 )のtree図---------
+---------$( ( A_2 \land A_1 ) \to A_6 )$のtree図---------
 
 \begin{center}
 	\begin{tikzpicture}[
@@ -46,7 +46,7 @@
 	\end{tikzpicture}
 \end{center}
 
----------( \lnot A_1 )のtree図---------
+---------$( \lnot A_1 )$のtree図---------
 
 \begin{center}
 	\begin{tikzpicture}[
@@ -63,7 +63,7 @@
 	\end{tikzpicture}
 \end{center}
 
----------( \lnot ( \lnot ( \lnot A_1 ) ) )のtree図---------
+---------$( \lnot ( \lnot ( \lnot A_1 ) ) )$のtree図---------
 
 \begin{center}
 	\begin{tikzpicture}[
@@ -86,7 +86,7 @@
 	\end{tikzpicture}
 \end{center}
 
----------( ( \lnot ( \lnot ( \lnot A_1 ) ) ) \to A_2 )のtree図---------
+---------$( ( \lnot ( \lnot ( \lnot A_1 ) ) ) \to A_2 )$のtree図---------
 
 \begin{center}
 	\begin{tikzpicture}[
@@ -113,7 +113,7 @@
 	\end{tikzpicture}
 \end{center}
 
----------A_3のtree図---------
+---------$A_3$のtree図---------
 
 \begin{center}
 	\begin{tikzpicture}[
@@ -127,7 +127,7 @@
 	\end{tikzpicture}
 \end{center}
 
----------( ( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) ) \to ( \lnot ( \lnot ( \lnot A_1 ) ) ) )のtree図---------
+---------$( ( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) ) \to ( \lnot ( \lnot ( \lnot A_1 ) ) ) )$のtree図---------
 
 \begin{center}
 	\begin{tikzpicture}[
@@ -174,7 +174,7 @@
 	\end{tikzpicture}
 \end{center}
 
----------( ( \lnot ( \lnot ( \lnot A_1 ) ) ) \lor ( \lnot ( \lnot ( \lnot A_2 ) ) ) )のtree図---------
+---------$( ( \lnot ( \lnot ( \lnot A_1 ) ) ) \lor ( \lnot ( \lnot ( \lnot A_2 ) ) ) )$のtree図---------
 
 \begin{center}
 	\begin{tikzpicture}[
@@ -210,7 +210,7 @@
 	\end{tikzpicture}
 \end{center}
 
----------( A_1 \land A_2 )のtree図---------
+---------$( A_1 \land A_2 )$のtree図---------
 
 \begin{center}
 	\begin{tikzpicture}[
@@ -228,7 +228,7 @@
 	\end{tikzpicture}
 \end{center}
 
----------( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) )のtree図---------
+---------$( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) )$のtree図---------
 
 \begin{center}
 	\begin{tikzpicture}[
@@ -262,7 +262,7 @@
 	\end{tikzpicture}
 \end{center}
 
----------( ( ( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) ) \to ( \lnot ( \lnot ( \lnot A_1 ) ) ) ) \lor ( ( \lnot ( \lnot ( \lnot A_1 ) ) ) \lor ( ( A_1 \land A_2 ) \lor ( A_3 \land A_4 ) ) ) ) ) )のtree図---------
+---------$( ( ( ( A_2 \to ( A_1 \to A_6 ) ) \leftrightarrow ( ( A_2 \land A_1 ) \to A_6 ) ) \to ( \lnot ( \lnot ( \lnot A_1 ) ) ) ) \lor ( ( \lnot ( \lnot ( \lnot A_1 ) ) ) \lor ( ( A_1 \land A_2 ) \lor ( A_3 \land A_4 ) ) ) ) ) )$のtree図---------
 
 \begin{center}
 	\begin{tikzpicture}[
