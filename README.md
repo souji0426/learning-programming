@@ -22,9 +22,11 @@
 あとは使いたい論理式は自身のTeXファイルに貼り付けて使う。
 ただしプリアンブルには最低限以下のものが必要。
 
+```
 \documentclass[a4j,dvipdfmx,10pt]{jarticle}
 %jbookとかでも可
 \usepackage{tikz-qtree}
+```
 
 ### お試しツールの使い方
 単にinputファイルの結果をさらっと見たい場合には、使い方にある通りinput.txtを用意して、
