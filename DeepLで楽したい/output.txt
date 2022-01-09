@@ -1,0 +1,64 @@
+It takes a particularly clever puzzle to stump a mind accustomed to performing mentalgymnastics.
+So it's no ordinary puzzle that's spreading through networks of mathematicians like ajuicy bit of gossip.
+Known as ''the hat problem'' in its most popular incarnation, thisseemingly simple puzzle is consuming brain cycles at universities and research labsacross the country and has become a vibrant topic of discussion on the Internet.
+The reason this problem is so captivating, mathematicians say, is that it is not just arecreational puzzle to be solved and put away.
+Rather, it has deep and unexpected connections to coding theory, an active area ofmathematical research with broad applications in telecommunications and computerscience.
+In their attempts to devise a complete solution to the problem, researchers are provingnew theorems in coding theory that may have applications well beyond mathematicalpuzzles.
+''This puzzle is unique since it connects to unsolved mathematical questions,'' said Dr.Joe Buhler, deputy director of the Mathematical Sciences Research Institute here and ahat problem enthusiast.
+The hat problem goes like this:Three players enter a room and a red or blue hat is placed on each person's head.
+Thecolor of each hat is determined by a coin toss, with the outcome of one coin toss having noeffect on the others.
+Each person can see the other players' hats but not his own.
+No communication of any sort is allowed, except for an initial strategy session before thegame begins.
+Once they have had a chance to look at the other hats, the players mustsimultaneously guess the color of their own hats or pass.
+The group shares a hypothetical$3 million prize if at least one player guesses correctly and no players guess incorrectly.
+The same game can be played with any number of players.
+The general problem is to finda strategy for the group that maximizes its chances of winning the prize.
+One obvious strategy for the players, for instance, would be for one player to alwaysguess ''red'' while the other players pass.
+This would give the group a 50 percent chanceof winning the prize.
+Can the group do better?Most mathematicians initially think not.
+Since each person's hat color is independent ofthe other players' colors and no communication is allowed, it seems impossible for theplayers to learn anything just by looking at one another.
+All the players can do, it seems,is guess.
+''I tell someone the problem and they think they don't have the conditions right,'' said Dr.Peter Winkler, director of fundamental mathematics research at Bell Labs of LucentTechnologies in Murray Hill, N.J.
+''But if you try to prove it's impossible, it doesn't quitework.''Mathematicians credit the problem to Dr.Todd Ebert, a computer science instructor atthe University of California at Irvine, who introduced it in his Ph.D.thesis at theUniversity of California at Santa Barbara in 1998.
+Dr.Ebert said he discovered the problem's appeal only recently, when he offered extracredit to his students for solving a seven-player version he called the ''seven prisonerspuzzle.''Next thing he knew, the problem was posted on Internet news groups and in chat rooms.
+''I started getting e-mail from all over the country,'' Dr.Ebert said.
+Meanwhile, Dr.Winkler, a well-known collector and distributor of clever puzzles, heardthe problem from a colleague and spread it widely.
+It has cropped up at MicrosoftResearch in Redmond, Wash., at Hewlett-Packard Laboratories in Palo Alto, Calif., and atmathematics, statistics and computer science departments at universities across thecountry.
+The problem has even spread to the Caribbean.
+At a workshop at a research institute inBarbados, one hardy group of theoretical computer scientists stayed up late one rumsoakednight, playing a drinking game based on the puzzle.
+It spread to Berkeley after Dr.Winkler bumped into Dr.Elwyn Berlekamp, a professor inthe Berkeley math department, at a conference in New Orleans in January.
+''I told him about the problem and next thing I knew he was leaving messages on myhotel phone saying, 'Great problem, haven't gotten it yet,' then finally, 'I got it,' '' Dr.Winkler said.
+''I thought, with his knowledge of coding theory, he'd find that approach,and he didn't disappoint me.''Dr.Berlekamp, a coding theory expert, said he figured out the solution to the simplestcase in about half an hour, but he saw the coding theory connection only while he wasfalling asleep that night.
+''If you look at old things that you know from a different angle, sometimes you can't seethem,'' he said.
+The first thing Dr.Berlekamp saw was that in the three-player case, it is possible for thegroup to win three-fourths of the time.
+Three-fourths of the time, two of the players will have hats of the same color and the thirdplayer's hat will be the opposite color.
+The group can win every time this happens byusing the following strategy: Once the game starts, each player looks at the other twoplayers' hats.
+If the two hats are different colors, he passes.
+If they are the same color, theplayer guesses his own hat is the opposite color.
+This way, every time the hat colors are distributed two and one, one player will guesscorrectly and the others will pass, and the group will win the game.
+When all the hats arethe same color, however, all three players will guess incorrectly and the group will lose.
+''If you look at the total number of guesses made, it's still the case that half are right andhalf wrong,'' Dr.Winkler said.
+''You only make progress if, when players are guessingwrong, a great many are guessing wrong.''The strategy gets far more complicated for larger numbers of players.
+Still, it all comes down to making sure that most of the time no one is wrong andoccasionally everyone is wrong at once.
+As it turns out, this requirement can be perfectly met only when the number of players isone less than a power of two (three, seven, 15 and so on.)For example, in the game with 15 players, there is a strategy for which the group isvictorious 15 out of every 16 times they play.
+This strategy can be described using elegant mathematical structures known asHamming codes.
+Hamming codes, named after Richard Hamming, the mathematicianwho discovered them, are basic tools studied by engineering students all over the world.
+Hamming codes straddle the boundary between two types of mathematical objects: errorcorrecting codes and covering codes.
+Error correcting codes, techniques for correcting errors in data sent across noisychannels, are used in everything from cell phones to compact discs.
+Covering codes canbe used to compress data so they take up less space in a computer's memory.
+''Hamming codes are perfect structures, a lot like crystals, where you can't move anatom in them or they are completely destroyed,'' said Dr.Amin Shokrollahi, chief scientistat Digital Fountain, which uses coding theory to speed up Internet data transmissions.
+''When you take the hat problem apart and look at its core, you see what you need areexactly Hamming codes.''When the game is played with fewer than nine players, the optimal solution can bedetermined using various types of codes.
+For larger numbers that aren't one less than apower of two, a strategy designed around the Hamming code solution works closer andcloser to 100 percent of the time as the number of players grows.
+Dr.Hendrik Lenstra, a professor of mathematics at Berkeley, and Dr.Gadiel Seroussi,director of information theory research at HP Labs, have developed a new type ofcovering code to define an even better strategy for large numbers of players.
+While their strategy is the best so far, they don't know that it is always optimal.
+Theoptimal solution to the hat problem, for all numbers of players, is still unknown.
+''We're still working on it,'' Dr.Seroussi said.
+''And as a consequence of working on thisproblem, we've got some results in coding theory that are interesting in and ofthemselves.''For now, researchers say, it seems unlikely that a solution will have immediate practicalapplications.
+Still, one never knows what the future might hold.
+''My experience is thatany mathematics I've done is useful eventually,'' Dr.Seroussi said.
+Practically useful or not, for some researchers the hat problem has interesting socialimplications.
+''I like problems that have philosophical punch lines,'' Dr.Berlekamp said,citing two life lessons that can be gleaned from the puzzle:''The first is that it's O.K.to be wrong as long as you contrive not to be wrong alone,'' hesaid.
+''The other, more important lesson is a need for teamwork that goes against thegrain of most mathematicians.
+If the evidence suggests someone on your team knowsmore than you, you should keep your mouth shut.
+''Most of us assume that each player's strategy is oriented toward him getting it right,and it's not.
+It's the whole team.''
