@@ -1,7 +1,5 @@
 perl -w convert.pl
 
-del "./output0.txt"
-
-del "./output1.txt"
+del "./middle*.txt"
 
 "./output.txt"
