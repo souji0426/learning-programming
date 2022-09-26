@@ -16,6 +16,6 @@ del "./hoge.log"
 
 del "./hoge.pdf"
 
-del "./hoge.tex"
+rem del "./hoge.tex"
 
 "./é¿çsåãâ .pdf"

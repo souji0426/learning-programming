@@ -37,6 +37,7 @@ def read_text( input_file_path )
   expression_list = []
   File.readlines( input_file_path ).each do |line|
     line = line.chomp
+    #自分が見栄え用に入れているスペースを消去
     line = line.gsub( "\\\s", "" )
     line = line.gsub( "\s", "" )
     expression_list.push( line )
@@ -144,9 +145,13 @@ def make_skeleton_tree( tree, height )
 end
 
 def analyze_expression( expression )
+  #構文木として使用するハッシュに、頂点である対象論理式をセット
   tree = { "0" => expression }
+  #構文木のサイズはその論理式の左（右）括弧の個数＋１を上限とする
   max_height_of_tree = expression.scan(/\(/).size + 1
+  #構文木に上限となる高さを参考に空の構文木を作成する
   make_skeleton_tree( tree, max_height_of_tree )
+  #上記の頂点のみの構文木に構文解析した部分論理式を格納していく
   make_tree( expression, tree, max_height_of_tree )
   return tree
 end
