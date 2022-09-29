@@ -35,7 +35,11 @@ sub calc {
   make_indistinguishable_coloring_list( $coloring_list_file_path );
   make_chooseable_strategy_list( $all_strategy_list_file_path );
   my $predictor_list_file_path = make_predictor_list();
-  my $analysis_data_file_path = analysis_predictor( $coloring_list_file_path, $all_strategy_list_file_path, $predictor_list_file_path );
+   analysis_predictor( $coloring_list_file_path, $all_strategy_list_file_path, $predictor_list_file_path );
+   make_data_of_answer_data( $predictor_list_file_path );
+   if ( $setting->{"pass_mode"} eq "off" and $setting->{"simultaneous_mode"} eq "on" ) {
+     output_minimal_predictor_result( $coloring_list_file_path, $all_strategy_list_file_path, $predictor_list_file_path );
+   }
 }
 
 #------------------------------------------------------------------
@@ -425,7 +429,6 @@ sub make_predictor_list {
 
 sub analysis_predictor {
   my ( $coloring_list_file_path, $all_strategy_list_file_path, $predictor_list_file_path ) = @_;
-  my $analysis_data_file_path = "${calc_data_dir_path}/analysis_data.txt";
 
   my $num_of_prisoner = $setting->{"num_of_prisoner"};
   my $prisoner_list = read_list( "prisoner" );
@@ -434,12 +437,133 @@ sub analysis_predictor {
   while ( my $line = <$predictor_list_fh> ) {
     chomp $line;
     my ( $predictor_name, $predictor_data ) = read_function_data( $line );
-    
+    my $answer_result_file_path = "${calc_data_dir_path}/answer_result_${predictor_name}.txt";
+    open( my $answer_result_fh, ">", encode( "cp932", $answer_result_file_path ) );
+    open( my $coloring_list_fh, "<", encode( "cp932", $coloring_list_file_path ) );
+    while ( my $coloring_list_line = <$coloring_list_fh> ) {
+      my %result_hash;
+      chomp $coloring_list_line;
+      my ( $coloring_name, $coloring_data ) = read_function_data( $coloring_list_line );
+      foreach my $prisoner_name ( @$prisoner_list ) {
+        my $strategy_name_of_prisoner = $predictor_data->{$prisoner_name};
+        my $strategy_data = get_strategy_data( $all_strategy_list_file_path, $strategy_name_of_prisoner );
+        my $result;
+        if ( $strategy_data->{$coloring_name} eq "pass" ) {
+          $result = "pass";
+        } else {
+          if ( $strategy_data->{$coloring_name} eq $coloring_data->{$prisoner_name} ) {
+            $result = "correct";
+          } else {
+            $result = "incorrect";
+          }
+        }
+        $result_hash{$prisoner_name} = $result;
+      }
+
+      my @result_array;
+      foreach my $prisoner_name ( @$prisoner_list ) {
+        my $result = $result_hash{$prisoner_name};
+        push( @result_array, "${prisoner_name}->${result}" );
+      }
+      print $answer_result_fh "$coloring_name:" . join( ",", @result_array ) . "\n";
+    }
+    close $coloring_list_fh;
+    close $answer_result_fh;
   }
 
   close $predictor_list_fh;
+}
 
-  return $analysis_data_file_path;
+sub get_strategy_data {
+  my ( $all_strategy_list_file_path, $target_strategy_name ) = @_;
+  my $data;
+  open( my $all_strategy_list_fh, "<", encode( "cp932", $all_strategy_list_file_path ) );
+  while( my $line = <$all_strategy_list_fh> ) {
+    chomp $line;
+    my ( $strategy_name, $strategy_data ) = read_function_data( $line );
+    if ( $target_strategy_name eq $strategy_name ) {
+      $data = $strategy_data;
+      last;
+    }
+  }
+  close $all_strategy_list_fh;
+  return $data;
+}
+
+#------------------------------------------------------------------
+
+sub make_data_of_answer_data {
+  my ( $predictor_list_file_path ) = @_;
+  open( my $predictor_list_fh, "<", encode( "cp932", $predictor_list_file_path ) );
+  while ( my $line = <$predictor_list_fh> ) {
+    chomp $line;
+    my ( $predictor_name, $predictor_data ) = read_function_data( $line );
+    my $answer_data_file_path = "${calc_data_dir_path}/answer_data_${predictor_name}.txt";
+    open( my $answer_data_fh, ">", encode( "cp932", $answer_data_file_path ) );
+
+    my $answer_result_file_path = "${calc_data_dir_path}/answer_result_${predictor_name}.txt";
+    open( my $answer_result_fh, "<", encode( "cp932", $answer_result_file_path ) );
+    while ( my $line = <$answer_result_fh> ) {
+      chomp $line;
+      my ( $coloring_name, $answer_data ) = read_function_data( $line );
+
+      my ( $num_of_correct_answer, $num_of_incorrect_answer, $num_of_pass_answer ) = ( 0, 0, 0 );
+      my ( @correct_answer_list, @incorrect_answer_list, @pass_answer_list );
+      foreach my $prisoner_name ( keys %$answer_data ) {
+        if ( $answer_data->{$prisoner_name} eq "correct" ) {
+          $num_of_correct_answer++;
+          push( @correct_answer_list, $prisoner_name );
+        } elsif ( $answer_data->{$prisoner_name} eq "incorrect" ) {
+          $num_of_incorrect_answer++;
+          push( @incorrect_answer_list, $prisoner_name );
+        } elsif ( $answer_data->{$prisoner_name} eq "pass" ) {
+          $num_of_pass_answer++;
+          push( @pass_answer_list, $prisoner_name );
+        }
+      }
+      print $answer_data_fh "${coloring_name}:";
+      print $answer_data_fh "num_of_correct_answer->${num_of_correct_answer},";
+      print $answer_data_fh "correct_answer->" . join( "-", @correct_answer_list ) . ",";
+      print $answer_data_fh "num_of_incorrect_answer->${num_of_incorrect_answer},";
+      print $answer_data_fh "incorrect_answer->" . join( "-", @incorrect_answer_list ) . ",";
+      print $answer_data_fh "num_of_pass_answer->${num_of_pass_answer},";
+      print $answer_data_fh "pass_answer->" . join( "-", @pass_answer_list ) . "\n";
+    }
+    close $answer_result_fh;
+    close $answer_data_fh;
+  }
+  close $predictor_list_fh;
+}
+
+#------------------------------------------------------------------
+
+sub output_minimal_predictor_result {
+  my ( $coloring_list_file_path, $all_strategy_list_file_path, $predictor_list_file_path ) = @_;
+  my $minimal_predictor_result_file_path = "${calc_data_dir_path}/minimal_predictor_result.txt";
+  open( my $minimal_predictor_result_fh, ">", encode( "cp932", $minimal_predictor_result_file_path ) );
+  open( my $predictor_list_fh, "<", encode( "cp932", $predictor_list_file_path ) );
+  while ( my $line = <$predictor_list_fh> ) {
+    chomp $line;
+    my ( $predictor_name, $predictor_data ) = read_function_data( $line );
+    my $is_minimal_predictor = 1;
+    my $answer_data_file_path = "${calc_data_dir_path}/answer_data_${predictor_name}.txt";
+    open( my $answer_data_fh, "<", encode( "cp932", $answer_data_file_path ) );
+    while ( my $answer_data_line = <$answer_data_fh> ) {
+      chomp $answer_data_line;
+      my ( $coloring_name, $answer_data ) = read_function_data( $answer_data_line );
+      #print Dumper $answer_data;
+      if ( $answer_data->{"num_of_correct_answer"} == "0" ) {
+        $is_minimal_predictor = 0;
+        last;
+      }
+    }
+    if ( $is_minimal_predictor ) {
+      print "${predictor_name}\n";
+    }
+    close $answer_data_fh;
+  }
+
+  close $minimal_predictor_result_fh
 }
 
 #------------------------------------------------------------------
