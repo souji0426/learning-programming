@@ -32,6 +32,7 @@ sub make_time_stamp {
 
 my $log_messeage = [];
 my $data = {};
+$data->{"sum_of_process_time"} = 0;
 
 calc();
 
@@ -47,6 +48,7 @@ sub calc {
   if ( $setting->{"pass_mode"} eq "off" and $setting->{"simultaneous_mode"} eq "on" ) {
    output_minimal_predictor_result( $coloring_list_file_path, $strategy_list_file_path, $predictor_list_file_path );
   }
+  #print Dumper $data;
 }
 
 #------------------------------------------------------------------
@@ -219,7 +221,7 @@ sub make_indistinguishable_coloring_list {
 
   foreach my $prisoner_name ( @$prisoner_list ) {
     my $gragh_file_path = $setting->{"gragh_file_path"};
-    my ( $can_see_list, $not_see_list ) = read_gragh_for_one_prisoner( $prisoner_name );
+    my ( $can_see_list, $can_not_see_list ) = read_gragh_for_one_prisoner( $prisoner_name );
 
     my $calc_counter = 0;
     my $calc_file_path = "${calc_data_dir_path}/calc_${calc_counter}.txt";
@@ -296,14 +298,14 @@ sub read_gragh_for_one_prisoner {
   }
   close $gragh_fh;
 
-  my $not_see_list = [];
+  my $can_not_see_list = [];
   foreach my $prisoner_name ( @$prisoner_list ) {
     if ( !grep { $_ eq $prisoner_name } @$can_see_list ) {
-      push( @$not_see_list, $prisoner_name );
+      push( @$can_not_see_list, $prisoner_name );
     }
   }
 
-  return ( $can_see_list, $not_see_list );
+  return ( $can_see_list, $can_not_see_list );
 }
 
 sub get_num_of_line {
@@ -515,7 +517,8 @@ sub analysis_predictor {
   while ( my $line = <$predictor_list_fh> ) {
     chomp $line;
     my ( $predictor_name, $predictor_data ) = read_function_data( $line );
-    my $answer_result_file_path = "${calc_data_dir_path}/answer_result_${predictor_name}.txt";
+    my $answer_result_file_name = "answer_result_${predictor_name}.txt";
+    my $answer_result_file_path = "${calc_data_dir_path}/${answer_result_file_name}";
     open( my $answer_result_fh, ">", encode_cp932( $answer_result_file_path ) );
     open( my $coloring_list_fh, "<", encode_cp932( $coloring_list_file_path ) );
     while ( my $coloring_list_line = <$coloring_list_fh> ) {
@@ -547,6 +550,8 @@ sub analysis_predictor {
     }
     close $coloring_list_fh;
     close $answer_result_fh;
+    copy( encode_cp932( $answer_result_file_path ),
+          encode_cp932( "${result_data_dir_path}/${answer_result_file_name}" ) );
     print_process_for_predictor( $process_name, $start_time, $predictor_counter, $num_of_predictor );
     $predictor_counter++;
   }
@@ -585,7 +590,8 @@ sub make_data_of_answer_data {
   while ( my $line = <$predictor_list_fh> ) {
     chomp $line;
     my ( $predictor_name, $predictor_data ) = read_function_data( $line );
-    my $answer_data_file_path = "${calc_data_dir_path}/answer_data_${predictor_name}.txt";
+    my $answer_data_file_name = "answer_data_${predictor_name}.txt";
+    my $answer_data_file_path = "${calc_data_dir_path}/${answer_data_file_name}";
     open( my $answer_data_fh, ">", encode_cp932( $answer_data_file_path ) );
 
     my $answer_result_file_path = "${calc_data_dir_path}/answer_result_${predictor_name}.txt";
@@ -623,9 +629,9 @@ sub make_data_of_answer_data {
 
     }
     close $answer_result_fh;
-    unlink encode_cp932( $answer_result_file_path );
     close $answer_data_fh;
-
+    copy( encode_cp932( $answer_data_file_path ),
+          encode_cp932( "${result_data_dir_path}/${answer_data_file_name}" ) );
     print_process_for_predictor( $process_name, $start_time, $predictor_counter, $num_of_predictor );
     $predictor_counter++;
   }
@@ -666,7 +672,6 @@ sub output_minimal_predictor_result {
       print $minimal_predictor_result_fh "${predictor_name}\n";
     }
     close $answer_data_fh;
-    unlink encode_cp932( $answer_data_file_path );
     print_process_for_predictor( $process_name, $start_time, $predictor_counter, $num_of_predictor );
     $predictor_counter++;
   }
@@ -748,6 +753,7 @@ sub subroutine_end {
   my ( $start_time, $str ) = @_;
   my $end_time = time;
   my $process_time = $end_time - $start_time;
+  $data->{"sum_of_process_time"} += $process_time;
   my $process_time_log_messeage = make_process_time_log( $process_time );
   pop @$log_messeage;
   push( @$log_messeage, "${str}完了！　　" . $process_time_log_messeage );
